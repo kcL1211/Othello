@@ -8,9 +8,9 @@ public interface Gui {
 
     void visuals();
 
-    int getInput(int position, int color);
+    int getInput(int color);
 
-    void showBoard();
+    void showBoard(Board b);
 
 
 

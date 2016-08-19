@@ -19,21 +19,43 @@ public class Cli implements Gui {
     }
 
     public void visuals(){
-
+        ;//not needed for CLI version
     }
 
-    public void showBoard(){
-        int[] board = new int[7];
-        board[position] = color;
-
+    public void showBoard(Board b){
+        System.out.println(getBoardString(b));
     }
 
-    public int getInput(int position, int color){
+
+    private String getBoardString(Board board){
+        int[] b = board.getBoard();
+        String bString = " 0 1 2 3 4 5 6 7 \n";
+        //(ex.| | | |B|W| | | |)
+        for(int i = 0; i < board.getSize(); i++) {
+            bString += '|';
+            switch (b[i]){
+                case Othello.BLACK:
+                    bString += 'B';
+                    break;
+                case Othello.WHITE:
+                    bString += 'W';
+                    break;
+                case Othello.EMPTY:
+                    bString += ' ';
+                    break;
+            }
+        }
+        bString += '|';
+        return bString;
+    }
+
+    public int getInput(int player){
         Scanner kbReader = new Scanner(System.in);
         this.color = color;
         color = kbReader.nextInt();
         this.position = position;
         position = kbReader.nextInt();
+        System.out.println(getBoardString(new Board(8)));
         System.out.println("The color of the piece: " + color);
         System.out.println("The position of the piece: " + position);
         if(position > 8) {
