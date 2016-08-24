@@ -10,6 +10,10 @@ public class Cli implements Gui {
     int color;
     int position;
 
+    public Cli(){
+
+    }
+
     public void instructions(){
         System.out.println("Black = 0" + "\t" + "White = -1");
         System.out.println("Enter the following:");

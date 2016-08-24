@@ -14,10 +14,22 @@ public class Othello {
         g.showBoard(b);
         //playGame(b, g);
 
+
+        // test isFull
+        b.setPosition(BLACK, 5);
+        b.setPosition(BLACK, 6);
+        g.showBoard(b);
+        System.out.println("b.isFull(): " + b.isFull());
+
+        // test X
+        b.setPosition(BLACK, 5);
+        b.setPosition(BLACK, 6);
+        System.out.println("b.isFull(): " + b.isFull());
+
     }
 
+    //get input
     private void playGame(Board b, Gui g) {
-        boolean isBlackTurn;
         for(int turn = 0; !b.isFull(); turn++){
             int player = (turn % 2 == 0) ? BLACK : WHITE;
             if(moveAvailable(b, player));
