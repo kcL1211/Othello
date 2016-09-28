@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 /**
  * Created by Casey on 8/12/16.
  */
@@ -15,16 +17,40 @@ public class Othello {
         //playGame(b, g);
 
 
-        // test isFull
-        b.setPosition(BLACK, 5);
-        b.setPosition(BLACK, 6);
-        g.showBoard(b);
-        System.out.println("b.isFull(): " + b.isFull());
+//        // test isFull
+//        b.setPosition(BLACK, 5);
+//        b.setPosition(BLACK, 6);
+//        g.showBoard(b);
+//        System.out.println("b.isFull(): " + b.isFull());
+//
+//        // test X
+//        b.setPosition(WHITE, 2);
+//        b.setPosition(WHITE, 1);
+//        g.showBoard(b);
+//        System.out.println("b.getEmpties() " + b.getEmpties());
 
-        // test X
-        b.setPosition(BLACK, 5);
-        b.setPosition(BLACK, 6);
-        System.out.println("b.isFull(): " + b.isFull());
+        // test addPiece()
+//        b.addPiece(BLACK, 5); //expect true
+//        g.showBoard(b);
+//        b.addPiece(BLACK, 6); //expect false
+//        g.showBoard(b);
+//        b.setPosition(WHITE, 2);
+//        b.setPosition(WHITE, 1);
+//        b.addPiece(BLACK, 0); //expect true
+//        g.showBoard(b);
+
+        //test getDirectionArray()
+        b.setPosition(WHITE, 2);
+        b.setPosition(WHITE, 5);
+        b.setPosition(WHITE, 7);
+        g.showBoard(b);
+        ArrayList x = b.getDirectionArray(3, Board.LT);
+//        System.out.println(x.toString());
+//        x = b.getDirectionArray(3, Board.RT);
+//        System.out.println(x.toString());
+
+        b.flip(BLACK, x, 2);
+        g.showBoard(b);
 
     }
 

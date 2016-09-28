@@ -43,31 +43,30 @@ public class Board {
         return size;
     }
 
-    /**
-     * for testing purposes only
+    /**for testing purposes only
+     * @Params: player: BLACK or WHITE of new piece
+     *          position: number on the board to put new piece
+     * Description: manually place a piece on the board without any checks
      */
     public void setPosition(int player, int position){
         b[position] = player;
     }
 
-    /**
-     *  needs testing
-     * @return
-     *
-     *
-     */
+    /** @Returns: boolean that tells if the board is full
+     * Description: tells if the boards is full
+     **/
     public Boolean isFull(){
         for(int i = 0; i < b.length; i++){
             if(b[i] == Othello.EMPTY){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
-     *
-     * @return
+     * @Returns: ArrayList of the empty spaces' indices
+     * Description: tells which space's are empty
      */
     public ArrayList<Integer> getEmpties(){
         ArrayList<Integer> empties = new ArrayList<>();
@@ -79,7 +78,12 @@ public class Board {
         return empties;
     }
 
-    //check if it's valid move
+    /**
+     * @param player
+     * @param position
+     * @Return: boolean that tells if it's a valid move
+     * @Description: if valid move, then return true, add piece and flip accordingly, if not, return false
+     */
     public boolean addPiece(int player, int position){
         //return false if position is already taken
         if(b[position] != 0){
@@ -90,12 +94,22 @@ public class Board {
         //loop through directions looking for the one that the player wanted to flip
         for(int i = 0; i < numDirections; i++){
             ArrayList<Integer> dirArr = getDirectionArray(position, i);
-            flipDirection(player, dirArr);
+            boolean directionFlipped = flipDirection(player, dirArr);
+            if(directionFlipped){
+                flipped = true;
+            }
         }
-        //return true if "any pieces r flipped"
+        if(flipped){
+            b[position] = player;
+        }
         return flipped;
     }
 
+    /**
+     * @param player (color of piece)
+     * @param directionArray (the colors represented by numbers in one direction)
+     * @return boolean; true if
+     */
     private boolean flipDirection(int player, ArrayList<Integer> directionArray){
         int otherPlayer = ( player == 1 ) ? 2 : 1;
         //check if the adjacent position is of opposite color
@@ -104,20 +118,35 @@ public class Board {
         //find next of same color to flip toward
         for(int i = 1; i < directionArray.size(); i++){
             if(directionArray.get(i) == player){
-                //flip(directionArray, i)
+                flip(player, directionArray, i);
                 return true;
             }
         }
         return false;
     }
 
-    //flip pieces in directionArray from 0 to index
-    private void flip(ArrayList directionArray, int index){
-
+    //flip pieces in directionArray from 0 to index of dA
+    protected void flip(int player, ArrayList directionArray, int index){
+        for(int i = 0; i < index; i++){
+            directionArray.set(i, player);
+        }
     }
 
-    private ArrayList getDirectionArray(int pos, int dir){
-
-        return null;
+    //get the integers from each direction and put it in an array
+    protected ArrayList getDirectionArray(int pos, int dir){
+        ArrayList<Integer> dirArray = new ArrayList<Integer>();
+        switch(dir){
+            case RT:
+                for(int i = pos + 1; i < size; i++){
+                    dirArray.add(b[i]);
+                }
+                break;
+            case LT:
+                for(int i = pos - 1; i >= 0; i--){
+                    dirArray.add(b[i]);
+                }
+                break;
+        }
+        return dirArray;
     }
 }
