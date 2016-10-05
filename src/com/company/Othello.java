@@ -49,7 +49,7 @@ public class Othello {
 //        x = b.getDirectionArray(3, Board.RT);
 //        System.out.println(x.toString());
 
-        //test flip
+        //test flip 1
         b.setPosition(WHITE, 2);
         b.setPosition(WHITE, 5);
         b.setPosition(WHITE, 7);
@@ -58,14 +58,26 @@ public class Othello {
         b.addPiece(BLACK, 6);
         g.showBoard(b);
 
+        //test flip 2
+        b = new Board(8);
+        //...
+        b.setPosition(WHITE, 2);
+        b.setPosition(BLACK, 1);
+        //..
+        g.showBoard(b);
+        b.addPiece(BLACK, 5);
+        g.showBoard(b);
+
+
+
     }
 
     //get input
     private void playGame(Board b, Gui g) {
         for(int turn = 0; !b.isFull(); turn++){
             int player = (turn % 2 == 0) ? BLACK : WHITE;
-            if(moveAvailable(b, player));
-            takeTurn(b, g, player);
+            if(moveAvailable(b, player))
+                takeTurn(b, g, player);
 //            switch("temporary") {
 //                case "game over":
 //                    break;
@@ -98,15 +110,10 @@ public class Othello {
     }
 
     public boolean moveAvailable(Board b, int player){
-        //var empties = board.getEmpties()
-        //boolean moveavailable = false;
-        //for each empty
-        //  if (isValidMove(b, player, emptyPos)) return true;
-        //return false
-        return true;
-    }
-
-    public boolean isValidMove(Board b, int player, int pos){
+        ArrayList<Integer> empties = b.getEmpties();
+        for(Integer emptyPos : empties) {
+            if (-1 != b.isValidMove(player, emptyPos)) return true;
+        }
         return false;
     }
 }

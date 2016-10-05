@@ -160,21 +160,7 @@ public class Board {
         }
     }
 
-    //get the integers from each direction and put it in an array
-    protected ArrayList getDirectionArray(int pos, int dir){
-        ArrayList<Integer> dirArray = new ArrayList<Integer>();
-        switch(dir){
-            case RT:
-                for(int i = pos + 1; i < size; i++){
-                    dirArray.add(b[i]);
-                }
-                break;
-            case LT:
-                for(int i = pos - 1; i >= 0; i--){
-                    dirArray.add(b[i]);
-                }
-                break;
-        }
-        return dirArray;
+    protected int isValidMove(int player, int pos){
+        return -1;
     }
 }
