@@ -95,12 +95,8 @@ public class Board {
         for(int i = 0; i < numDirections; i++){
             boolean directionFlipped = flip(player, position, i);
             if(directionFlipped){
-                setPosition(player, position);
                 flipped = true;
             }
-        }
-        if(flipped){
-            b[position] = player;
         }
         return flipped;
     }
@@ -113,7 +109,7 @@ public class Board {
      * @return
      */
     protected boolean flip(int player, int pos, int dir){
-        int otherPlayer = player==1 ? 2: 1;
+        int capPos = -1;    //keep track of end cap position of same color
         switch(dir){
             case RT:
                 //if adjacent piece is same color, then nothing will be flipped
@@ -121,26 +117,44 @@ public class Board {
 
                 //find next of same color
                 for(int i = pos + 1; i < size; i++) {
-                    if (b[i] == otherPlayer) {
-                        setPosition(player, i);
-                    }else if(b[i] == player){
+                    if (b[i] == player) {
+                        capPos = i; //end cap found, save to flip outside of this for loop
                         break;
                     }
                 }
-                return true;
+
+                //if valid flip found, flip pieces from cap to capPos
+                if(capPos != -1) {
+                    for (int i = pos; i < capPos; i++) {
+                        setPosition(player, i);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+
             case LT:
                 //if adjacent piece is same color, then nothing will be flipped
                 if(b[pos-1] == player) return false;
 
                 //find next of same color
                 for(int i = pos - 1; i >= 0; i--) {
-                    if (b[i] == otherPlayer) {
-                        setPosition(player, i);
-                    }else if(b[i] == player){
+                    if (b[i] == player) {
+                        capPos = i; //end cap found, save to flip outside of this for loop
                         break;
                     }
                 }
-                return true;
+
+                //flip pieces from pos to capPos
+                if(capPos != -1) {
+                    for (int i = pos; i > capPos ; i--) {
+                        setPosition(player, i);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+
             default:
                 return false;
         }
