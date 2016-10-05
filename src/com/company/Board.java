@@ -93,9 +93,9 @@ public class Board {
         boolean flipped = false;     //flag to see if any pieces heed to be flipped. If never true,-> invalid move
         //loop through directions looking for the one that the player wanted to flip
         for(int i = 0; i < numDirections; i++){
-            ArrayList<Integer> dirArr = getDirectionArray(position, i);
-            boolean directionFlipped = flipDirection(player, dirArr);
+            boolean directionFlipped = flip(player, position, i);
             if(directionFlipped){
+                setPosition(player, position);
                 flipped = true;
             }
         }
@@ -106,29 +106,43 @@ public class Board {
     }
 
     /**
-     * @param player (color of piece)
-     * @param directionArray (the colors represented by numbers in one direction)
-     * @return boolean; true if
+     *
+     * @param player
+     * @param pos
+     * @param dir
+     * @return
      */
-    private boolean flipDirection(int player, ArrayList<Integer> directionArray){
-        int otherPlayer = ( player == 1 ) ? 2 : 1;
-        //check if the adjacent position is of opposite color
-        if(directionArray.get(0) == player) return false;
+    protected boolean flip(int player, int pos, int dir){
+        int otherPlayer = player==1 ? 2: 1;
+        switch(dir){
+            case RT:
+                //if adjacent piece is same color, then nothing will be flipped
+                if(b[pos+1] == player) return false;
 
-        //find next of same color to flip toward
-        for(int i = 1; i < directionArray.size(); i++){
-            if(directionArray.get(i) == player){
-                flip(player, directionArray, i);
+                //find next of same color
+                for(int i = pos + 1; i < size; i++) {
+                    if (b[i] == otherPlayer) {
+                        setPosition(player, i);
+                    }else if(b[i] == player){
+                        break;
+                    }
+                }
                 return true;
-            }
-        }
-        return false;
-    }
+            case LT:
+                //if adjacent piece is same color, then nothing will be flipped
+                if(b[pos-1] == player) return false;
 
-    //flip pieces in directionArray from 0 to index of dA
-    protected void flip(int player, ArrayList directionArray, int index){
-        for(int i = 0; i < index; i++){
-            directionArray.set(i, player);
+                //find next of same color
+                for(int i = pos - 1; i >= 0; i--) {
+                    if (b[i] == otherPlayer) {
+                        setPosition(player, i);
+                    }else if(b[i] == player){
+                        break;
+                    }
+                }
+                return true;
+            default:
+                return false;
         }
     }
 

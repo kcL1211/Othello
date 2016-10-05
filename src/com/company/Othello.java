@@ -39,17 +39,23 @@ public class Othello {
 //        b.addPiece(BLACK, 0); //expect true
 //        g.showBoard(b);
 
-        //test getDirectionArray()
-        b.setPosition(WHITE, 2);
-        b.setPosition(WHITE, 5);
-        b.setPosition(WHITE, 7);
-        g.showBoard(b);
-        ArrayList x = b.getDirectionArray(3, Board.LT);
+//        //test getDirectionArray()
+//        b.setPosition(WHITE, 2);
+//        b.setPosition(WHITE, 5);
+//        b.setPosition(WHITE, 7);
+//        g.showBoard(b);
+//        ArrayList x = b.getDirectionArray(3, Board.LT);
 //        System.out.println(x.toString());
 //        x = b.getDirectionArray(3, Board.RT);
 //        System.out.println(x.toString());
 
-        b.flip(BLACK, x, 2);
+        //test flip
+        b.setPosition(WHITE, 2);
+        b.setPosition(WHITE, 5);
+        b.setPosition(WHITE, 7);
+        g.showBoard(b);
+        //b.flip(BLACK, 6 ,b.LT);
+        b.addPiece(BLACK, 6);
         g.showBoard(b);
 
     }
