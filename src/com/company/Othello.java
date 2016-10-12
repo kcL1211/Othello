@@ -60,13 +60,13 @@ public class Othello {
 
         //test flip 2
         b = new Board(8);
-        //...
         b.setPosition(WHITE, 2);
-        b.setPosition(BLACK, 1);
-        //..
         g.showBoard(b);
         b.addPiece(BLACK, 5);
         g.showBoard(b);
+        b.addPiece(BLACK, 1);
+        g.showBoard(b);
+        b.addPiece(WHITE, 6);
 
 
 
@@ -112,7 +112,7 @@ public class Othello {
     public boolean moveAvailable(Board b, int player){
         ArrayList<Integer> empties = b.getEmpties();
         for(Integer emptyPos : empties) {
-            if (-1 != b.isValidMove(player, emptyPos)) return true;
+            if (b.isValidMove(player, emptyPos)) return true;
         }
         return false;
     }

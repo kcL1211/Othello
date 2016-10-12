@@ -85,12 +85,16 @@ public class Board {
      * @Description: if valid move, then return true, add piece and flip accordingly, if not, return false
      */
     public boolean addPiece(int player, int position){
+        //flag to see if any pieces heed to be flipped. If never true,-> invalid move
+        boolean flipped = false;
+
         //return false if position is already taken
         if(b[position] != 0){
-            return false;
+            flipped = false;
+            return flipped;
         }
+
         //check if pieces will be flipped, if yes, flip them
-        boolean flipped = false;     //flag to see if any pieces heed to be flipped. If never true,-> invalid move
         //loop through directions looking for the one that the player wanted to flip
         for(int i = 0; i < numDirections; i++){
             boolean directionFlipped = flip(player, position, i);
@@ -101,12 +105,93 @@ public class Board {
         return flipped;
     }
 
+    /***
+     *
+     * @param player
+     * @param pos
+     * @return true if valid, false if invalid
+     */
+    protected boolean isValidMove(int player, int pos){
+        //foreach direction
+        for(int i = 0; i < numDirections; i++) {
+            if(isFlippable(player, pos, i))
+                return true;
+        }
+        return false;
+    }
+
+    /***
+     *
+     * @param player
+     * @param pos
+     * @return if valid: index of endcap, if not valid: -1;
+     */
+    protected boolean isFlippable(int player, int pos, int dir){
+        switch(dir){
+            case RT:
+                return isRTFlippable(player, pos);
+            case LT:
+                return isLTFlippable(player, pos);
+            default:
+                return false;
+        }
+    }
+
+    protected boolean isRTFlippable(int player, int pos){
+        //1. adj piece is opposite color
+        if(b[pos+1] == player) return false;
+        //2. seqential pieces are opposite color until same color is found
+        for(int i = pos+1; i < b.length; i++){
+            if(b[i] == player){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected boolean isLTFlippable(int player, int pos){
+        //1. adj piece is opposite color
+        if(b[pos-1] == player) return false;
+        //2. sequential pieces are opposite color until same color is found
+        for(int i = pos-1; i >= 0; i--){
+            if(b[i] == player){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    protected int flipLTTo(int player, int pos){
+        //1. adj piece is opposite color
+        if(b[pos-1] == player) return -1;
+        //2. sequential pieces are opposite color until same color is found
+        for(int i = pos-1; i >= 0; i--){
+            if(b[i] == player){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    protected int flipRTTo(int player, int pos){
+        //1. adj piece is opposite color
+        if(b[pos+1] == player) return -1;
+        //2. sequential pieces are opposite color until same color is found
+        for(int i = pos+1; i <b.length; i++){
+            if(b[i] == player){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /**
      *
      * @param player
      * @param pos
      * @param dir
-     * @return
+     * @return null if invalid flip, otherwise returns an int array of the form: [???]
      */
     protected boolean flip(int player, int pos, int dir){
         int capPos = -1;    //keep track of end cap position of same color
@@ -129,6 +214,7 @@ public class Board {
                         setPosition(player, i);
                     }
                     return true;
+                    //flipRT(player, pos, capPos);
                 } else {
                     return false;
                 }
@@ -150,6 +236,7 @@ public class Board {
                     for (int i = pos; i > capPos ; i--) {
                         setPosition(player, i);
                     }
+                    //flipLT(player, pos, capPos);
                     return true;
                 } else {
                     return false;
@@ -160,7 +247,15 @@ public class Board {
         }
     }
 
-    protected int isValidMove(int player, int pos){
-        return -1;
+    protected void flipRT(int player, int from, int to){
+        for (int i = from; i < to; i++) {
+            setPosition(player, i);
+        }
+    }
+
+    protected void flipLT(int player, int from, int to){
+        for (int i = from; i > to; i--) {
+            setPosition(player, i);
+        }
     }
 }
